@@ -182,7 +182,7 @@ NSR changes system and network settings. Use it **at your own risk**. If you are
 
 ## 📄 License
 
-Released under the **MIT License**. See the `LICENSE` file.
+Released under the **MIT License**. See the [LICENSE](https://github.com/M1HA1586/Network-Settings-Reset/blob/main/LICENSE) file.
 
 <div align="center">
 
