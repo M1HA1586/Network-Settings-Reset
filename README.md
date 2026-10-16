@@ -75,7 +75,7 @@
 <a id="quick-start"></a>
 ## 🚀 Quick Start
 
-1. Open **`NSR.bat`** in this repository and click the **download** button
+1. Open **[`NSR.bat`](https://github.com/M1HA1586/Network-Settings-Reset/blob/main/NSR.bat)** and click the **download** button
 2. Double-click the file. Windows will ask for administrator permission, click **Yes**
 3. Use the number keys to move through the menu
 
@@ -186,6 +186,6 @@ Released under the **MIT License**. See the `LICENSE` file.
 
 <div align="center">
 
-Made with ❤️ by **M1HA15**
+Made with ❤️ by [**M1HA1586**](https://github.com/M1HA1586)
 
 </div>
