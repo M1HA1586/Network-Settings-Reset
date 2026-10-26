@@ -1,12 +1,13 @@
 @echo off
 setlocal EnableExtensions
 color 07
-set "VER=1.1"
+set "VER=1.2"
 title NSR v%VER% - Network Settings Reset
 set "NEEDS_RESTART=0"
 set "BK=%USERPROFILE%\NSR_Backup"
 set "HR=  ============================================================================"
 set "SR=  ----------------------------------------------------------------------------"
+set "PCOUNT=20"
 
 rem ============================================================================
 rem  STARTUP CHECKS
@@ -157,20 +158,13 @@ if errorlevel 2 goto :dnsCustom
 
 :dnsRecommended
 call :header "RECOMMENDED DNS PROVIDERS"
-echo    FAST AND RELIABLE
-echo    [1]  Cloudflare           1.1.1.1           Fast, privacy focused
-echo    [2]  Google               8.8.8.8           Very popular and reliable
-echo    [3]  Cisco OpenDNS        208.67.222.222    Stable, has filtering options
-echo    [4]  GCore                95.85.95.85       Alternative provider
+echo    Pick a type of DNS. IPv4, IPv6 and encrypted DNS [DoH] data of every
+echo    provider comes from its official page.
 echo.
-echo    SAFE  - blocks malware and phishing
-echo    [5]  Quad9                9.9.9.9           Non-profit, no personal logs
-echo    [6]  Cloudflare Security  1.1.1.2           Fast, blocks malware
-echo    [7]  DNS4EU               86.54.11.1        European, GDPR, blocks threats
-echo.
-echo    ADS AND FAMILY
-echo    [8]  AdGuard DNS          94.140.14.14      Blocks ads, trackers, malware
-echo    [9]  AdGuard Family       94.140.14.15      Also blocks adult sites
+echo    [1]  Fast and reliable     Big, stable networks
+echo    [2]  Private               Nothing is blocked. Privacy focused
+echo    [3]  Safe                  Blocks malware and phishing
+echo    [4]  Ads and family        Blocks ads, trackers or adult sites
 echo.
 echo    [0]  Back
 echo.
@@ -178,18 +172,94 @@ echo    Real speed depends on your location. Use [3] DNS Speed Test in the
 echo    main menu to see what is fastest for you.
 echo.
 echo %SR%
-choice /c 1234567890 /n /m "   Press a key [1-9, 0 = back]: "
-if errorlevel 10 goto :dnsMenu
-if errorlevel 9 goto :prov9
-if errorlevel 8 goto :prov8
-if errorlevel 7 goto :prov7
-if errorlevel 6 goto :prov6
-if errorlevel 5 goto :prov5
-if errorlevel 4 goto :prov4
-if errorlevel 3 goto :prov3
-if errorlevel 2 goto :prov2
-goto :prov1
+choice /c 12340 /n /m "   Press a key [1-4, 0 = back]: "
+if errorlevel 5 goto :dnsMenu
+if errorlevel 4 goto :catAds
+if errorlevel 3 goto :catSafe
+if errorlevel 2 goto :catPrivate
 
+:catFast
+call :header "FAST AND RELIABLE"
+echo    [1]  Cloudflare              1.1.1.1           Fast, privacy focused
+echo    [2]  Google                  8.8.8.8           Very popular and reliable
+echo    [3]  Cisco OpenDNS           208.67.222.222    Stable, has filtering options
+echo    [4]  GCore                   95.85.95.85       Alternative provider
+echo.
+echo    [0]  Back
+echo.
+echo %SR%
+choice /c 12340 /n /m "   Press a key [1-4, 0 = back]: "
+set "K=%errorlevel%"
+if %K%==5 goto :dnsRecommended
+set /a PICK=%K%+0
+goto :provPick
+
+:catPrivate
+call :header "PRIVATE - NOTHING IS BLOCKED"
+echo    These do not filter anything. Pick one for privacy, not for protection.
+echo.
+echo    [1]  DNS.SB                  185.222.222.222   No filtering, DNSSEC
+echo    [2]  Control D               76.76.2.0         Free, no filtering
+echo    [3]  Mullvad                 194.242.2.2       Privacy focused, Sweden
+echo    [4]  DNS4EU Unfiltered       86.54.11.100      European, no filtering
+echo    [5]  UncensoredDNS           91.239.100.100    Danish, no filtering
+echo.
+echo    [0]  Back
+echo.
+echo %SR%
+choice /c 123450 /n /m "   Press a key [1-5, 0 = back]: "
+set "K=%errorlevel%"
+if %K%==6 goto :dnsRecommended
+set /a PICK=%K%+4
+goto :provPick
+
+:catSafe
+call :header "SAFE - BLOCKS MALWARE AND PHISHING"
+echo    They block dangerous sites on purpose. A blocked site is not a bug.
+echo.
+echo    [1]  Quad9                   9.9.9.9           Non-profit, no personal logs
+echo    [2]  Cloudflare Security     1.1.1.2           Fast, blocks malware
+echo    [3]  DNS4EU Protective       86.54.11.1        European, blocks threats
+echo    [4]  CleanBrowsing Security  185.228.168.9     Blocks malware, phishing
+echo    [5]  Mullvad Base            194.242.2.4       Blocks ads, trackers, malware
+echo.
+echo    [0]  Back
+echo.
+echo %SR%
+choice /c 123450 /n /m "   Press a key [1-5, 0 = back]: "
+set "K=%errorlevel%"
+if %K%==6 goto :dnsRecommended
+set /a PICK=%K%+9
+goto :provPick
+
+:catAds
+call :header "ADS AND FAMILY"
+echo    They block ads, trackers or adult sites on purpose.
+echo.
+echo    [1]  AdGuard DNS             94.140.14.14      Blocks ads, trackers, malware
+echo    [2]  AdGuard Family          94.140.14.15      Also blocks adult sites
+echo    [3]  Mullvad Adblock         194.242.2.3       Blocks ads and trackers
+echo    [4]  DNS4EU Ads Block        86.54.11.13       European, blocks threats, ads
+echo    [5]  Control D Family        76.76.2.4         Blocks adult sites, malware
+echo    [6]  CleanBrowsing Family    185.228.168.168   Strict, blocks adult sites
+echo.
+echo    [0]  Back
+echo.
+echo %SR%
+choice /c 1234560 /n /m "   Press a key [1-6, 0 = back]: "
+set "K=%errorlevel%"
+if %K%==7 goto :dnsRecommended
+set /a PICK=%K%+14
+goto :provPick
+
+rem  Loads provider number PICK, then goes to the apply screen
+:provPick
+call :prov%PICK%
+goto :dnsApply
+
+rem  Provider data. One label per provider. They only set variables.
+
+rem  FAST
 :prov1
 set "DNS_NAME=Cloudflare"
 set "DNS4_1=1.1.1.1"
@@ -197,8 +267,10 @@ set "DNS4_2=1.0.0.1"
 set "DNS6_1=2606:4700:4700::1111"
 set "DNS6_2=2606:4700:4700::1001"
 set "DOH_URL=https://cloudflare-dns.com/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
+rem  FAST
 :prov2
 set "DNS_NAME=Google"
 set "DNS4_1=8.8.8.8"
@@ -206,8 +278,10 @@ set "DNS4_2=8.8.4.4"
 set "DNS6_1=2001:4860:4860::8888"
 set "DNS6_2=2001:4860:4860::8844"
 set "DOH_URL=https://dns.google/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
+rem  FAST
 :prov3
 set "DNS_NAME=Cisco OpenDNS"
 set "DNS4_1=208.67.222.222"
@@ -215,8 +289,10 @@ set "DNS4_2=208.67.220.220"
 set "DNS6_1=2620:119:35::35"
 set "DNS6_2=2620:119:53::53"
 set "DOH_URL=https://doh.opendns.com/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
+rem  FAST
 :prov4
 set "DNS_NAME=GCore"
 set "DNS4_1=95.85.95.85"
@@ -224,52 +300,184 @@ set "DNS4_2=2.56.220.2"
 set "DNS6_1=2a03:90c0:999d::1"
 set "DNS6_2=2a03:90c0:9992::1"
 set "DOH_URL="
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
+rem  PRIVATE
 :prov5
+set "DNS_NAME=DNS.SB"
+set "DNS4_1=185.222.222.222"
+set "DNS4_2=45.11.45.11"
+set "DNS6_1=2a09::"
+set "DNS6_2=2a11::"
+set "DOH_URL=https://doh.dns.sb/dns-query"
+set "DNS_NOTE="
+exit /b 0
+
+rem  PRIVATE
+:prov6
+set "DNS_NAME=Control D"
+set "DNS4_1=76.76.2.0"
+set "DNS4_2=76.76.10.0"
+set "DNS6_1=2606:1a40::"
+set "DNS6_2=2606:1a40:1::"
+set "DOH_URL=https://freedns.controld.com/p0"
+set "DNS_NOTE="
+exit /b 0
+
+rem  PRIVATE
+:prov7
+set "DNS_NAME=Mullvad"
+set "DNS4_1=194.242.2.2"
+set "DNS4_2="
+set "DNS6_1=2a07:e340::2"
+set "DNS6_2="
+set "DOH_URL=https://dns.mullvad.net/dns-query"
+set "DNS_NOTE=Mullvad gives one address only, no backup server."
+exit /b 0
+
+rem  PRIVATE
+:prov8
+set "DNS_NAME=DNS4EU Unfiltered"
+set "DNS4_1=86.54.11.100"
+set "DNS4_2=86.54.11.200"
+set "DNS6_1=2a13:1001::86:54:11:100"
+set "DNS6_2=2a13:1001::86:54:11:200"
+set "DOH_URL=https://unfiltered.joindns4.eu/dns-query"
+set "DNS_NOTE=DNS4EU is meant for personal use."
+exit /b 0
+
+rem  PRIVATE
+:prov9
+set "DNS_NAME=UncensoredDNS"
+set "DNS4_1=91.239.100.100"
+set "DNS4_2=89.233.43.71"
+set "DNS6_1=2001:67c:28a4::"
+set "DNS6_2=2a01:3a0:53:53::"
+set "DOH_URL=https://anycast.uncensoreddns.org/dns-query"
+set "DNS_NOTE=Run by one person in Denmark."
+exit /b 0
+
+rem  SAFE
+:prov10
 set "DNS_NAME=Quad9"
 set "DNS4_1=9.9.9.9"
 set "DNS4_2=149.112.112.112"
 set "DNS6_1=2620:fe::fe"
 set "DNS6_2=2620:fe::9"
 set "DOH_URL=https://dns.quad9.net/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
-:prov6
+rem  SAFE
+:prov11
 set "DNS_NAME=Cloudflare Security"
 set "DNS4_1=1.1.1.2"
 set "DNS4_2=1.0.0.2"
 set "DNS6_1=2606:4700:4700::1112"
 set "DNS6_2=2606:4700:4700::1002"
 set "DOH_URL=https://security.cloudflare-dns.com/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
-:prov7
-set "DNS_NAME=DNS4EU"
+rem  SAFE
+:prov12
+set "DNS_NAME=DNS4EU Protective"
 set "DNS4_1=86.54.11.1"
 set "DNS4_2=86.54.11.201"
 set "DNS6_1=2a13:1001::86:54:11:1"
 set "DNS6_2=2a13:1001::86:54:11:201"
 set "DOH_URL=https://protective.joindns4.eu/dns-query"
-goto :dnsApply
+set "DNS_NOTE=DNS4EU is meant for personal use."
+exit /b 0
 
-:prov8
+rem  SAFE
+:prov13
+set "DNS_NAME=CleanBrowsing Security"
+set "DNS4_1=185.228.168.9"
+set "DNS4_2=185.228.169.9"
+set "DNS6_1=2a0d:2a00:1::2"
+set "DNS6_2=2a0d:2a00:2::2"
+set "DOH_URL=https://doh.cleanbrowsing.org/doh/security-filter/"
+set "DNS_NOTE="
+exit /b 0
+
+rem  SAFE
+:prov14
+set "DNS_NAME=Mullvad Base"
+set "DNS4_1=194.242.2.4"
+set "DNS4_2="
+set "DNS6_1=2a07:e340::4"
+set "DNS6_2="
+set "DOH_URL=https://base.dns.mullvad.net/dns-query"
+set "DNS_NOTE=Mullvad gives one address only, no backup server."
+exit /b 0
+
+rem  ADS
+:prov15
 set "DNS_NAME=AdGuard DNS"
 set "DNS4_1=94.140.14.14"
 set "DNS4_2=94.140.15.15"
 set "DNS6_1=2a10:50c0::ad1:ff"
 set "DNS6_2=2a10:50c0::ad2:ff"
 set "DOH_URL=https://dns.adguard-dns.com/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
 
-:prov9
+rem  ADS
+:prov16
 set "DNS_NAME=AdGuard Family"
 set "DNS4_1=94.140.14.15"
 set "DNS4_2=94.140.15.16"
 set "DNS6_1=2a10:50c0::bad1:ff"
 set "DNS6_2=2a10:50c0::bad2:ff"
 set "DOH_URL=https://family.adguard-dns.com/dns-query"
-goto :dnsApply
+set "DNS_NOTE="
+exit /b 0
+
+rem  ADS
+:prov17
+set "DNS_NAME=Mullvad Adblock"
+set "DNS4_1=194.242.2.3"
+set "DNS4_2="
+set "DNS6_1=2a07:e340::3"
+set "DNS6_2="
+set "DOH_URL=https://adblock.dns.mullvad.net/dns-query"
+set "DNS_NOTE=Mullvad gives one address only, no backup server."
+exit /b 0
+
+rem  ADS
+:prov18
+set "DNS_NAME=DNS4EU Ads Block"
+set "DNS4_1=86.54.11.13"
+set "DNS4_2=86.54.11.213"
+set "DNS6_1=2a13:1001::86:54:11:13"
+set "DNS6_2=2a13:1001::86:54:11:213"
+set "DOH_URL=https://noads.joindns4.eu/dns-query"
+set "DNS_NOTE=DNS4EU is meant for personal use."
+exit /b 0
+
+rem  ADS
+:prov19
+set "DNS_NAME=Control D Family"
+set "DNS4_1=76.76.2.4"
+set "DNS4_2=76.76.10.4"
+set "DNS6_1=2606:1a40::4"
+set "DNS6_2=2606:1a40:1::4"
+set "DOH_URL=https://freedns.controld.com/family"
+set "DNS_NOTE="
+exit /b 0
+
+rem  ADS
+:prov20
+set "DNS_NAME=CleanBrowsing Family"
+set "DNS4_1=185.228.168.168"
+set "DNS4_2=185.228.169.168"
+set "DNS6_1=2a0d:2a00:1::"
+set "DNS6_2=2a0d:2a00:2::"
+set "DOH_URL=https://doh.cleanbrowsing.org/doh/family-filter/"
+set "DNS_NOTE=Strict. Also blocks VPN sites and Reddit."
+exit /b 0
 
 :dnsCustom
 call :header "CUSTOM DNS"
@@ -277,6 +485,7 @@ echo    Type your DNS addresses. Only the first IPv4 address is required.
 echo    Press Enter to skip the others.
 echo.
 set "DNS_NAME=Custom"
+set "DNS_NOTE="
 set "DNS4_1="
 set "DNS4_2="
 set "DNS6_1="
@@ -293,6 +502,7 @@ call :header "APPLY DNS"
 echo    Provider : %DNS_NAME%
 echo    IPv4     : %DNS4_1%   %DNS4_2%
 if defined DNS6_1 echo    IPv6     : %DNS6_1%   %DNS6_2%
+if defined DNS_NOTE echo    Note     : %DNS_NOTE%
 echo.
 echo    It will be set on these active adapters:
 echo.
@@ -306,6 +516,7 @@ set "NSR_V6="
 if defined DNS6_1 set "NSR_V6=%DNS6_1%"
 if defined DNS6_2 set "NSR_V6=%NSR_V6%,%DNS6_2%"
 echo.
+call :backupDNS
 call :psSetDNS
 ipconfig /flushdns >nul 2>&1
 call :log "DNS set to %DNS_NAME%"
@@ -362,7 +573,7 @@ call :header "DNS SPEED TEST"
 echo    Sends real DNS requests to each provider and measures the answer time.
 echo    Lower ms = faster. Failed = the server did not answer in time.
 echo.
-echo    [1]  Test all recommended providers     takes about 30 seconds
+echo    [1]  Test all 20 recommended providers  takes about 1 minute
 echo    [2]  Test my own DNS server             Enter an IPv4 address
 echo.
 echo    [0]  Back
@@ -371,7 +582,7 @@ echo %SR%
 choice /c 120 /n /m "   Press a key [1, 2 or 0]: "
 if errorlevel 3 goto :mainMenu
 if errorlevel 2 goto :pingCustom
-set "NSR_HOSTS=1=Cloudflare=1.1.1.1,2=Google=8.8.8.8,3=Cisco OpenDNS=208.67.222.222,4=GCore=95.85.95.85,5=Quad9=9.9.9.9,6=Cloudflare Security=1.1.1.2,7=DNS4EU=86.54.11.1,8=AdGuard DNS=94.140.14.14,9=AdGuard Family=94.140.14.15"
+call :buildHosts
 goto :pingRun
 
 :pingCustom
@@ -393,12 +604,13 @@ set "FAST=%errorlevel%"
 echo.
 echo %SR%
 if %FAST% LSS 1 goto :pingDone
-if %FAST% GTR 9 goto :pingDone
+if %FAST% GTR %PCOUNT% goto :pingDone
 echo    Speed is not everything. The SAFE providers also block threats.
 echo.
 choice /c YN /n /m "   Use the fastest DNS now? [Y/N]: "
 if errorlevel 2 goto :pingDone
-goto :prov%FAST%
+set "PICK=%FAST%"
+goto :provPick
 
 :pingDone
 call :pauseBack
@@ -442,25 +654,42 @@ call :header "ABOUT NSR"
 echo    Name      : NSR - Network Settings Reset
 echo    Version   : %VER%
 echo    Author    : M1HA1586
+echo    Website   : getnsr.xyz
 echo.
 echo    What's new in v%VER%:
-echo     - DNS now shows IPv4 and IPv6, and if it is manual or automatic
-echo     - 9 DNS providers: fast, safe, ads and family filtering
-echo     - Encrypted DNS [DoH] on Windows 11
-echo     - DNS Speed Test measures real DNS answer time, then applies the winner
-echo     - New Network Diagnostics: finds if the problem is router, ISP or DNS
-echo     - Log file and backups in %BK%
+echo     - 20 DNS providers in 4 groups: fast, private, safe, ads and family
+echo     - New: DNS.SB, Control D, Mullvad, UncensoredDNS, CleanBrowsing, DNS4EU
+echo     - Speed test shows progress and ranks every provider
+echo     - The DNS view shows [DoH] when encrypted DNS is on
+echo     - Your old DNS is saved before every change
+echo     - Check for updates from this screen
 echo.
 echo    [1]  Open NSR on GitHub
-echo    [2]  Open the backup and log folder
+echo    [2]  Open the NSR website
+echo    [3]  Check for updates
+echo    [4]  Open the backup and log folder
 echo.
 echo    [0]  Back
 echo.
 echo %SR%
-choice /c 120 /n /m "   Press a key [1, 2 or 0]: "
-if errorlevel 3 goto :mainMenu
-if errorlevel 2 goto :openBK
+choice /c 12340 /n /m "   Press a key [1-4, 0 = back]: "
+if errorlevel 5 goto :mainMenu
+if errorlevel 4 goto :openBK
+if errorlevel 3 goto :updCheck
+if errorlevel 2 goto :openWeb
 start "" "https://github.com/M1HA1586/Network-Settings-Reset"
+goto :infoScript
+
+:openWeb
+start "" "https://getnsr.xyz"
+goto :infoScript
+
+:updCheck
+echo.
+echo   Checking GitHub for a newer version...
+echo.
+call :psUpdate
+call :pauseBack
 goto :infoScript
 
 :openBK
@@ -644,6 +873,25 @@ if not exist "%BK%" mkdir "%BK%" >nul 2>&1
 >>"%BK%\NSR_log.txt" echo %date% %time:~0,8%  %~1
 exit /b 0
 
+rem  Saves the current DNS in the backup folder before NSR changes it
+:backupDNS
+if not exist "%BK%" mkdir "%BK%" >nul 2>&1
+>>"%BK%\DNS_before.txt" echo [%date% %time:~0,8%]
+>>"%BK%\DNS_before.txt" call :showDNS
+exit /b 0
+
+rem  Builds NSR_HOSTS for the speed test from the provider labels
+rem  Format: id=name=ip,id=name=ip,...
+:buildHosts
+set "NSR_HOSTS="
+set "HI=0"
+:buildLoop
+set /a HI+=1
+call :prov%HI%
+set "NSR_HOSTS=%NSR_HOSTS%%HI%=%DNS_NAME%=%DNS4_1%,"
+if %HI% LSS %PCOUNT% goto :buildLoop
+exit /b 0
+
 rem  Prints a step name followed by dots (no new line). Result comes next.
 :task
 set "NSR_T=%~1 ..............................................."
@@ -717,7 +965,7 @@ exit /b %errorlevel%
 rem  Shows active adapters with their IPv4 and IPv6 DNS servers.
 rem  [manual] = set by the user, [auto] = comes from the router / ISP
 :showDNS
-powershell -NoProfile -Command "function Sd($i,$f,$k){ $s=@((Get-DnsClientServerAddress -InterfaceIndex $i.ifIndex -AddressFamily $f).ServerAddresses | Where-Object { $_ -notlike 'fec0:*' }); if($s.Count -eq 0){ return 'none' }; $m=(Get-ItemProperty ('HKLM:\SYSTEM\CurrentControlSet\Services\' + $k + '\Parameters\Interfaces\' + $i.InterfaceGuid)).NameServer; $t='[auto]'; if($m){ $t='[manual]' }; return (($s -join ', ') + '  ' + $t) }; $a=@(Get-NetAdapter -Physical | Where-Object { $_.Status -eq 'Up' }); if($a.Count -eq 0){ Write-Host '   No active network adapter found.' }; foreach($n in $a){ Write-Host ('   ' + $n.Name); Write-Host ('      IPv4 : ' + (Sd $n IPv4 Tcpip)); Write-Host ('      IPv6 : ' + (Sd $n IPv6 Tcpip6)) }"
+powershell -NoProfile -Command "$doh=@{}; try{ Get-DnsClientDohServerAddress -ErrorAction Stop | Where-Object { $_.AutoUpgrade } | ForEach-Object { $doh[[string]$_.ServerAddress]=1 } }catch{}; function Sd($i,$f,$k){ $s=@((Get-DnsClientServerAddress -InterfaceIndex $i.ifIndex -AddressFamily $f).ServerAddresses | Where-Object { $_ -notlike 'fec0:*' }); if($s.Count -eq 0){ return 'none' }; $m=(Get-ItemProperty ('HKLM:\SYSTEM\CurrentControlSet\Services\' + $k + '\Parameters\Interfaces\' + $i.InterfaceGuid)).NameServer; $t='[auto]'; if($m){ $t='[manual]' }; $e=@($s | Where-Object { $doh.ContainsKey($_) }).Count; if($e -gt 0){ $t += ' [DoH]' }; return (($s -join ', ') + '  ' + $t) }; $a=@(Get-NetAdapter -Physical | Where-Object { $_.Status -eq 'Up' }); if($a.Count -eq 0){ Write-Host '   No active network adapter found.' }; foreach($n in $a){ Write-Host ('   ' + $n.Name); Write-Host ('      IPv4 : ' + (Sd $n IPv4 Tcpip)); Write-Host ('      IPv6 : ' + (Sd $n IPv6 Tcpip6)) }"
 exit /b 0
 
 rem  Sets DNS (values come from NSR_V4 and NSR_V6) on every active physical adapter
@@ -750,8 +998,13 @@ exit /b 0
 rem  Real DNS speed test. NSR_HOSTS = id=name=ip,id=name=ip ...
 rem  Adds the current DNS for comparison. Exit code = id of the fastest provider.
 :psDnsTest
-powershell -NoProfile -Command "$d='google.com','youtube.com','facebook.com','wikipedia.org','amazon.com','microsoft.com','instagram.com','netflix.com'; $L=@(); foreach($e in ($env:NSR_HOSTS -split ',')){ $x=$e -split '=',3; if($x.Count -eq 3){ $L+=[pscustomobject]@{I=[int]$x[0];N=$x[1];H=$x[2]} } }; $ad=Get-NetAdapter -Physical | Where-Object {$_.Status -eq 'Up'} | Select-Object -First 1; if($ad){ $c=@((Get-DnsClientServerAddress -InterfaceIndex $ad.ifIndex -AddressFamily IPv4).ServerAddresses)[0]; if($c -and -not ($L | Where-Object {$_.H -eq $c})){ $L=@([pscustomobject]@{I=0;N='Your current DNS';H=$c}) + $L } }; $Z=@(); foreach($s in $L){ Write-Host ('   Testing ' + $s.N + ' ...'); $t=@(); $f=0; $up=$true; try{ Resolve-DnsName google.com -Server $s.H -Type A -DnsOnly -NoHostsFile -QuickTimeout -ErrorAction Stop | Out-Null }catch{ $up=$false; Write-Host '      no answer from this server' }; if($up){ for($r=0;$r -lt 2;$r++){ foreach($n in $d){ $w=[Diagnostics.Stopwatch]::StartNew(); try{ Resolve-DnsName $n -Server $s.H -Type A -DnsOnly -NoHostsFile -QuickTimeout -ErrorAction Stop | Out-Null; $t+=$w.Elapsed.TotalMilliseconds }catch{ $f++ } } }; if($t.Count -gt 0){ $m=$t | Measure-Object -Average -Minimum -Maximum; $Z+=[pscustomobject]@{I=$s.I;N=$s.N;A=$m.Average;B=$m.Minimum;W=$m.Maximum;F=$f} } } }; Write-Host ''; foreach($q in ($Z | Sort-Object A)){ Write-Host ('   {0,-20} avg {1,6:N1} ms   best {2,5:N1}   worst {3,6:N1}   failed {4}/16' -f $q.N,$q.A,$q.B,$q.W,$q.F) }; if($Z.Count -gt 0){ $b=$Z | Sort-Object A | Select-Object -First 1; Write-Host ''; Write-Host ('   Fastest: ' + $b.N); exit $b.I }; exit 0"
+powershell -NoProfile -Command "$d='google.com','youtube.com','facebook.com','wikipedia.org','amazon.com','microsoft.com','instagram.com','netflix.com'; $L=@(); foreach($e in ($env:NSR_HOSTS -split ',')){ $x=$e -split '=',3; if($x.Count -eq 3){ $L+=[pscustomobject]@{I=[int]$x[0];N=$x[1];H=$x[2]} } }; $ad=Get-NetAdapter -Physical | Where-Object {$_.Status -eq 'Up'} | Select-Object -First 1; if($ad){ $c=@((Get-DnsClientServerAddress -InterfaceIndex $ad.ifIndex -AddressFamily IPv4).ServerAddresses)[0]; if($c -and -not ($L | Where-Object {$_.H -eq $c})){ $L=@([pscustomobject]@{I=0;N='Your current DNS';H=$c}) + $L } }; $tot=$L.Count; $k=0; $Z=@(); $NA=@(); foreach($s in $L){ $k++; Write-Host -NoNewline ([string][char]13 + ('   [{0}/{1}] Testing {2}' -f $k,$tot,$s.N).PadRight(60)); $t=@(); $f=0; $up=$true; try{ Resolve-DnsName google.com -Server $s.H -Type A -DnsOnly -NoHostsFile -QuickTimeout -ErrorAction Stop | Out-Null }catch{ $up=$false; $NA+=$s.N }; if($up){ for($r=0;$r -lt 2;$r++){ foreach($n in $d){ $w=[Diagnostics.Stopwatch]::StartNew(); try{ Resolve-DnsName $n -Server $s.H -Type A -DnsOnly -NoHostsFile -QuickTimeout -ErrorAction Stop | Out-Null; $t+=$w.Elapsed.TotalMilliseconds }catch{ $f++ } } }; if($t.Count -gt 0){ $m=$t | Measure-Object -Average -Minimum -Maximum; $Z+=[pscustomobject]@{I=$s.I;N=$s.N;A=$m.Average;B=$m.Minimum;W=$m.Maximum;F=$f} } } }; Write-Host ([string][char]13 + ''.PadRight(60)); Write-Host '   Times are in ms. Top 10 and your current DNS:'; Write-Host ''; $o=@($Z | Sort-Object A); for($i=0;$i -lt $o.Count;$i++){ $q=$o[$i]; if($i -lt 10 -or $q.I -eq 0){ Write-Host ('   {0,2}. {1,-22} avg {2,6:N1}  best {3,5:N1}  worst {4,6:N1}  fail {5}/16' -f ($i+1),$q.N,$q.A,$q.B,$q.W,$q.F) } elseif($i -eq 10){ Write-Host '       ...' } }; if($NA.Count -gt 0){ Write-Host ''; Write-Host ('   No answer: ' + ($NA -join ', ')) }; if($o.Count -gt 0){ $b=$o[0]; Write-Host ''; Write-Host ('   Fastest: ' + $b.N); exit $b.I }; exit 0"
 exit /b %errorlevel%
+
+rem  Checks GitHub for a newer release. Only runs when the user chooses it.
+:psUpdate
+powershell -NoProfile -Command "try { [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; $r=Invoke-RestMethod 'https://api.github.com/repos/M1HA1586/Network-Settings-Reset/releases/latest' -TimeoutSec 8 -ErrorAction Stop; $n=([string]$r.tag_name) -replace '^[vV]',''; if([version]$n -gt [version]$env:VER){ Write-Host ('   A newer version is out: v' + $n); Write-Host '   Download it from https://getnsr.xyz' } else { Write-Host ('   You have the latest version [v' + $env:VER + '].') } } catch { Write-Host '   Could not check. Are you online?' }"
+exit /b 0
 
 rem  Network diagnostics: shows the connection and tells where the problem is
 :psDiag
