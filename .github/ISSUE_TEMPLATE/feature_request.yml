@@ -1,0 +1,59 @@
+name: ✨ Feature request
+description: Suggest an idea or an improvement for NSR
+title: "✨ [Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ✨ Got an idea? We want to hear it!
+
+        NSR is meant to stay **one simple `.bat` file**. Ideas that keep it **simple, safe and reversible** are the easiest to add. 🚀
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: 🧭 Which part is it about?
+      options:
+        - "🛠️ Network Maintenance"
+        - "🔀 Change DNS"
+        - "📡 DNS Speed Test"
+        - "🩺 Network Diagnostics"
+        - "💻 PC Information"
+        - "🎮 Bufferbloat Optimizer"
+        - "🎨 Menu and design"
+        - "🆕 Something completely new"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🎯 What problem would it solve?
+      placeholder: "I often have to ... and it takes a long time because ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 What would you like NSR to do?
+      placeholder: "A new menu option that ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔀 Other ways you thought about
+      description: Optional. Tools or tricks you use today for the same thing.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: ✅ Before sending
+      options:
+        - label: I searched the existing issues and this was not suggested yet
+          required: true

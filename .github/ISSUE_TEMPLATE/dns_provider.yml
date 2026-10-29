@@ -1,0 +1,75 @@
+name: 🛡️ Suggest a DNS provider
+description: Ask for a new DNS provider in the built-in list
+title: "🛡️ [DNS] "
+labels: ["dns-provider"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🛡️ Know a great DNS provider?
+
+        NSR ships with **9 providers**. A new one is added only if it is **trustworthy**, with **official public addresses** and a clear privacy policy. 🔒
+
+  - type: input
+    id: name
+    attributes:
+      label: 🏷️ Provider name
+      placeholder: "Example DNS"
+    validations:
+      required: true
+
+  - type: input
+    id: website
+    attributes:
+      label: 🌐 Official page with the DNS addresses
+      placeholder: "https://..."
+    validations:
+      required: true
+
+  - type: input
+    id: ipv4
+    attributes:
+      label: 4️⃣ IPv4 addresses (primary and secondary)
+      placeholder: "192.0.2.1, 192.0.2.2"
+    validations:
+      required: true
+
+  - type: input
+    id: ipv6
+    attributes:
+      label: 6️⃣ IPv6 addresses (primary and secondary)
+      placeholder: "2001:db8::1, 2001:db8::2"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: doh
+    attributes:
+      label: 🔒 Encrypted DNS (DoH) support
+      options:
+        - "✅ Yes"
+        - "➖ No"
+        - "❓ Not sure"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: filtering
+    attributes:
+      label: 🚦 Filtering
+      options:
+        - "🟢 No filtering"
+        - "🛡️ Blocks malware and phishing"
+        - "🚫 Blocks ads and trackers"
+        - "👨‍👩‍👧 Blocks adult content too"
+        - "🔀 Several of the above"
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: 💬 Why should it be added?
+      description: Optional. Privacy policy, speed in your region, non-profit, and so on.
+    validations:
+      required: false

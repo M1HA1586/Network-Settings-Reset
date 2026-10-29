@@ -1,0 +1,100 @@
+name: 🐛 Bug report
+description: Something in NSR does not work the way it should
+title: "🐛 [Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 Found a bug? Let's squash it!
+
+        Thanks for taking the time. A good report is half of the fix, so the more details you give, the faster it gets solved. 🙏
+
+        > 💡 **Tip:** NSR saves a log in `%USERPROFILE%\NSR_Backup`. You can open that folder from **About NSR** in the menu.
+
+  - type: input
+    id: version
+    attributes:
+      label: 🏷️ NSR version
+      description: Shown in the top-right corner of the menu and in **About NSR**.
+      placeholder: "v1.1"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: windows
+    attributes:
+      label: 🪟 Windows version
+      options:
+        - Windows 11
+        - Windows 10
+        - Other / not sure
+    validations:
+      required: true
+
+  - type: input
+    id: build
+    attributes:
+      label: 🔢 Windows build number
+      description: Shown on the main menu of NSR, next to *Windows build*.
+      placeholder: "22631"
+
+  - type: dropdown
+    id: option
+    attributes:
+      label: 📍 Where did it happen?
+      options:
+        - "🛠️ [1] Network Maintenance - Quick Fix"
+        - "🔧 [1] Network Maintenance - Full Reset"
+        - "🔀 [2] Change DNS"
+        - "📡 [3] DNS Speed Test"
+        - "🩺 [4] Network Diagnostics"
+        - "💻 [5] PC Information"
+        - "🎮 [6] Bufferbloat Optimizer"
+        - "ℹ️ [7] About NSR"
+        - "🚪 Startup or main menu"
+        - "❓ Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 💥 What happened?
+      description: Tell us what you saw, and what you expected to see instead.
+      placeholder: "When I choose ... the script ... but I expected ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: 🔁 Steps to reproduce
+      placeholder: |
+        1. Run NSR.bat
+        2. Press 2
+        3. Choose ...
+        4. See the error
+    validations:
+      required: false
+
+  - type: textarea
+    id: log
+    attributes:
+      label: 📋 Log or screenshot
+      description: |
+        Paste the last lines of the log, or drag a screenshot into this box.
+        Please remove anything private, such as your public IP.
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: ✅ Before sending
+      options:
+        - label: I ran NSR as administrator
+          required: true
+        - label: I searched the existing issues and this was not reported yet
+          required: true

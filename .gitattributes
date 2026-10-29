@@ -1,0 +1,12 @@
+# Batch files must keep Windows line endings (CRLF), or CMD can break
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Everything else: let Git normalize
+* text=auto
+*.md text eol=lf
+*.yml text eol=lf
+
+# Images are binary
+*.png binary
+*.ico binary
