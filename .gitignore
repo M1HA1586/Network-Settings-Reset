@@ -1,0 +1,15 @@
+# Windows
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# NSR runtime files (created on the user's PC, not part of the project)
+NSR_Backup/
+*.log
+*.bak
+*.tmp
