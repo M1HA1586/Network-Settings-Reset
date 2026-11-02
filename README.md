@@ -484,7 +484,4 @@ Released under the **MIT License**.
 **Made by [M1HA1586](https://github.com/M1HA1586)** &nbsp;·&nbsp; [getnsr.xyz](https://getnsr.xyz)
 
 <sub>NSR is not affiliated with Microsoft, Cloudflare, Google or any DNS provider named here.<br>NSR changes system and network settings. Use it at your own risk.</sub>
-
-[⬆ Back to top](#)
-
 </div>
