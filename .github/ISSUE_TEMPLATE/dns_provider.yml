@@ -8,7 +8,9 @@ body:
       value: |
         ## 🛡️ Know a great DNS provider?
 
-        NSR ships with **9 providers**. A new one is added only if it is **trustworthy**, with **official public addresses** and a clear privacy policy. 🔒
+        NSR ships with **20 providers** in 4 groups: Fast, Private, Safe, and Ads and family. See the [full list](https://getnsr.xyz/dns/).
+
+        A new one is added only if it is **trustworthy**, with **official public addresses** and a clear privacy policy. 🔒 It must also bring something the current providers do not. If an address in NSR is **wrong or old**, please say so here too.
 
   - type: input
     id: name
@@ -50,6 +52,27 @@ body:
         - "✅ Yes"
         - "➖ No"
         - "❓ Not sure"
+    validations:
+      required: true
+
+  - type: input
+    id: doh-url
+    attributes:
+      label: 🔐 Encrypted DNS (DoH) address
+      description: Optional. The `https://` address from the official page.
+      placeholder: "https://dns.example.com/dns-query"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: group
+    attributes:
+      label: 🗂️ Which group fits best?
+      options:
+        - "⚡ Fast"
+        - "🕶️ Private"
+        - "🛡️ Safe"
+        - "👨‍👩‍👧 Ads and family"
     validations:
       required: true
 
