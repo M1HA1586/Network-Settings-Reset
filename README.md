@@ -17,7 +17,9 @@
 
 [![Download NSR.bat](https://img.shields.io/badge/%E2%AC%87%20DOWNLOAD-NSR.bat%20v1.3-22c55e?style=for-the-badge)](https://github.com/M1HA1586/Network-Settings-Reset/releases/latest/download/NSR.bat)
 
-[**Features**](#-features) &nbsp;•&nbsp; [**Quick start**](#-quick-start) &nbsp;•&nbsp; [**Where to start**](#-where-to-start) &nbsp;•&nbsp; [**Safety**](#%EF%B8%8F-safety) &nbsp;•&nbsp; [**FAQ**](#-faq) &nbsp;•&nbsp; [**Website**](https://getnsr.xyz) &nbsp;•&nbsp; [**Guides**](https://getnsr.xyz/guides/)
+[**Features**](#-features) &nbsp;•&nbsp; [**Quick start**](#-quick-start) &nbsp;•&nbsp; [**Where to start**](#-where-to-start) &nbsp;•&nbsp; [**Safety**](#%EF%B8%8F-safety) &nbsp;•&nbsp; [**FAQ**](#-faq) &nbsp;•&nbsp; [**Support**](#-support-the-project) &nbsp;•&nbsp; [**Website**](https://getnsr.xyz) &nbsp;•&nbsp; [**Guides**](https://getnsr.xyz/guides/)
+
+<sub>⭐ If NSR helped you, a star helps other people find it. It is free and takes a second.</sub>
 
 </div>
 
@@ -465,11 +467,37 @@ Full notes: [Changelog](https://getnsr.xyz/changelog/) · [Releases](https://git
 
 ## 🤝 Help the project
 
-- 🐞 **Found a bug or a wrong address?** [Open an issue](https://github.com/M1HA1586/Network-Settings-Reset/issues).
-- 🔐 **Security problem?** Please report it [privately](https://github.com/M1HA1586/Network-Settings-Reset/security/advisories/new).
+- 🐞 **Found a bug or a wrong address?** [Open an issue](https://github.com/M1HA1586/Network-Settings-Reset/issues/new/choose).
+- 🛡️ **Know a good DNS provider?** [Suggest it](https://github.com/M1HA1586/Network-Settings-Reset/issues/new/choose).
+- 🔧 **Want to send code?** Read [CONTRIBUTING.md](CONTRIBUTING.md) first.
+- 🔐 **Security problem?** Please report it [privately](https://github.com/M1HA1586/Network-Settings-Reset/security/advisories/new). See [SECURITY.md](SECURITY.md).
 - ⭐ **Star the repo.** It takes a second and helps other people find NSR.
 - 📤 **Share it** with a friend who always asks you to fix their Wi-Fi.
-- ☕ **Support it.** NSR is built and maintained by one person, for free, with no ads and no tracking. [Say thanks with a coffee](https://getnsr.xyz/support/).
+
+More: [Changelog](CHANGELOG.md) · [Support and help](SUPPORT.md) · [Code of Conduct](CODE_OF_CONDUCT.md)
+
+<br>
+
+## 💖 Support the project
+
+NSR is built and maintained by one person, for free, with no ads and no tracking. If it saved you an evening of searching, a small thank-you keeps it alive. 🙏
+
+<div align="center">
+
+[![PayPal](https://img.shields.io/badge/PayPal-paypal.me%2Fmihaiserif-003087?style=for-the-badge&logo=paypal&logoColor=white)](https://paypal.me/mihaiserif)
+[![Revolut](https://img.shields.io/badge/Revolut-revolut.me%2Fmihaiserif5-0075EB?style=for-the-badge&logo=revolut&logoColor=white)](https://revolut.me/mihaiserif5)
+
+</div>
+
+| | Crypto | Address |
+| :---: | --- | --- |
+| 🪙 | **Litecoin (LTC)** | `LUoHjsi2dDC9tRDyuuBVHF3Lo7fFwgVNYs` |
+| ₿ | **Bitcoin (BTC)** | `bc1qmajqt2nrg9twys8tq0uwddnuwcgtsemt98j99l` |
+
+> [!WARNING]
+> Send **only** the matching coin to each address. Crypto payments cannot be reversed.
+
+More details and free ways to help: [DONATE.md](DONATE.md) · [getnsr.xyz/support](https://getnsr.xyz/support/)
 
 <br>
 
