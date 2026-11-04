@@ -10,17 +10,21 @@ body:
 
         NSR is meant to stay **one simple `.bat` file**. Ideas that keep it **simple, safe and reversible** are the easiest to add. 🚀
 
+        The best requests start with the **problem**, not the solution, and fit one of the menu groups: **FIX, DNS, TEST or TOOLS**.
+
   - type: dropdown
     id: area
     attributes:
       label: 🧭 Which part is it about?
       options:
-        - "🛠️ Network Maintenance"
-        - "🔀 Change DNS"
-        - "📡 DNS Speed Test"
-        - "🩺 Network Diagnostics"
-        - "💻 PC Information"
-        - "🎮 Bufferbloat Optimizer"
+        - "🛠️ FIX - Fix My Connection"
+        - "🔒 DNS - DNS Center"
+        - "🏁 DNS - DNS Speed Test"
+        - "🩺 TEST - Network Diagnostics"
+        - "⚡ TEST - Speed and Lag Test"
+        - "📶 TEST - Wi-Fi Tools"
+        - "🧰 TOOLS - Network Toolbox"
+        - "🧪 TOOLS - Bufferbloat Optimizer"
         - "🎨 Menu and design"
         - "🆕 Something completely new"
     validations:
@@ -49,6 +53,16 @@ body:
       description: Optional. Tools or tricks you use today for the same thing.
     validations:
       required: false
+
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: 📐 Does it fit the promises of NSR?
+      description: See CONTRIBUTING.md.
+      options:
+        - label: It needs no telemetry, no account and no hidden download
+        - label: Anything it changes can be undone
+        - label: It works on Windows 10 and 11 with the PowerShell that Windows includes
 
   - type: checkboxes
     id: checks
