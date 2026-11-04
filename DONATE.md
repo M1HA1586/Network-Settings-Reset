@@ -56,6 +56,7 @@ LUoHjsi2dDC9tRDyuuBVHF3Lo7fFwgVNYs
 | 🐛 | [Report a bug](https://github.com/M1HA1586/Network-Settings-Reset/issues/new/choose) |
 | 💡 | [Suggest a feature or a DNS provider](https://github.com/M1HA1586/Network-Settings-Reset/issues/new/choose) |
 | 🔧 | [Send a pull request](CONTRIBUTING.md) |
+| 🌐 | Link a guide from [getnsr.xyz](https://getnsr.xyz/guides/) when it helps someone |
 
 ---
 
@@ -63,6 +64,6 @@ LUoHjsi2dDC9tRDyuuBVHF3Lo7fFwgVNYs
 
 **Thank you for being part of NSR!** 💙
 
-Made with ❤️ by [**M1HA1586**](https://github.com/M1HA1586)
+Made with ❤️ by [**M1HA1586**](https://github.com/M1HA1586) · [getnsr.xyz/support](https://getnsr.xyz/support/)
 
 </div>
