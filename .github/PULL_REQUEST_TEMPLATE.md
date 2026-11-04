@@ -16,13 +16,14 @@
 |---|---|
 | 🪟 **Windows** | 10 / 11 (build ...) |
 | 🔑 **Administrator** | yes / no |
-| 📋 **Menu options tested** | ... |
+| 📋 **Menu path tested** | for example `Home / Network Toolbox / Best MTU` |
 
 ## ✅ Checklist
 
 - [ ] 🖱️ It runs from a normal double-click and asks for administrator rights
 - [ ] 🪟 I tested it on Windows 10 and/or Windows 11 (written above)
 - [ ] ↩️ Anything that changes system settings can be undone from the menu
-- [ ] 🔒 No telemetry, no hidden downloads, no unknown servers
+- [ ] 🎛️ Same keys as the rest of NSR: `0` is Back, the screen shows where you are, same footer and prompt
+- [ ] 🔒 No telemetry, no hidden downloads, no unknown servers (new network contact is listed in the README)
 - [ ] 📄 `NSR.bat` still has Windows line endings (CRLF)
-- [ ] 📖 I updated the `README.md` if something visible changed
+- [ ] 📖 I updated the `README.md` and `CHANGELOG.md` if something visible changed
