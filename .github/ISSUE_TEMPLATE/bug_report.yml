@@ -10,14 +10,16 @@ body:
 
         Thanks for taking the time. A good report is half of the fix, so the more details you give, the faster it gets solved. 🙏
 
-        > 💡 **Tip:** NSR saves a log in `%USERPROFILE%\NSR_Backup`. You can open that folder from **About NSR** in the menu.
+        > 💡 **Tip:** NSR saves a log in `%USERPROFILE%\NSR_Backup`. You can open that folder from **About and Updates** (`9`) in the menu.
+        >
+        > 🔒 Remove private data (public IP, Wi-Fi names and passwords, MAC addresses) from anything you paste.
 
   - type: input
     id: version
     attributes:
       label: 🏷️ NSR version
-      description: Shown in the top-right corner of the menu and in **About NSR**.
-      placeholder: "v1.1"
+      description: Shown in the top-right corner of every screen and in **About and Updates**. Please use the latest version first.
+      placeholder: "v1.3"
     validations:
       required: true
 
@@ -36,7 +38,7 @@ body:
     id: build
     attributes:
       label: 🔢 Windows build number
-      description: Shown on the main menu of NSR, next to *Windows build*.
+      description: Press Win + R, type `winver` and press Enter.
       placeholder: "22631"
 
   - type: dropdown
@@ -44,18 +46,30 @@ body:
     attributes:
       label: 📍 Where did it happen?
       options:
-        - "🛠️ [1] Network Maintenance - Quick Fix"
-        - "🔧 [1] Network Maintenance - Full Reset"
-        - "🔀 [2] Change DNS"
-        - "📡 [3] DNS Speed Test"
+        - "🚪 Startup or main screen"
+        - "🛠️ [1] Fix My Connection - Quick Fix"
+        - "🔌 [1] Fix My Connection - Restart Adapters"
+        - "🔧 [1] Fix My Connection - Full Reset"
+        - "🔒 [2] DNS Center"
+        - "🏁 [3] DNS Speed Test"
         - "🩺 [4] Network Diagnostics"
-        - "💻 [5] PC Information"
-        - "🎮 [6] Bufferbloat Optimizer"
-        - "ℹ️ [7] About NSR"
-        - "🚪 Startup or main menu"
+        - "⚡ [5] Speed and Lag Test"
+        - "📶 [6] Wi-Fi Tools"
+        - "🧰 [7] Network Toolbox"
+        - "🧪 [8] Bufferbloat Optimizer"
+        - "ℹ️ [9] About and Updates"
         - "❓ Other"
     validations:
       required: true
+
+  - type: input
+    id: path
+    attributes:
+      label: 🧭 Menu path
+      description: The line under the header of the screen.
+      placeholder: "Home / Network Toolbox / Best MTU"
+    validations:
+      required: false
 
   - type: textarea
     id: what-happened
@@ -72,7 +86,7 @@ body:
       label: 🔁 Steps to reproduce
       placeholder: |
         1. Run NSR.bat
-        2. Press 2
+        2. Press 7
         3. Choose ...
         4. See the error
     validations:
@@ -83,7 +97,7 @@ body:
     attributes:
       label: 📋 Log or screenshot
       description: |
-        Paste the last lines of the log, or drag a screenshot into this box.
+        Paste the last lines of `NSR_log.txt`, or drag a screenshot into this box.
         Please remove anything private, such as your public IP.
       render: text
     validations:
@@ -94,6 +108,8 @@ body:
     attributes:
       label: ✅ Before sending
       options:
+        - label: I use the latest NSR.bat from this repository or getnsr.xyz
+          required: true
         - label: I ran NSR as administrator
           required: true
         - label: I searched the existing issues and this was not reported yet
